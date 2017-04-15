@@ -38,10 +38,10 @@ function Ensure-Packages([string[]] $Categories='basic.choco')
 
     Write-Host "`nINSTALLED PACKAGES:"
     choco.exe list -lo
-    if ($failed.Length) {
+    if ($failures.Length) {
         Write-Host ''
         Write-Warning "FAILED PACKAGES:"
-        $failed | % Write-Warning
+        $failures| % Write-Warning
     }
     
     Write-Host ''
