@@ -27,12 +27,12 @@ function Ensure-ChocolateyPackages {
     $package_files = ls packages\choco-*.txt -Include ($Categories | % { "choco-$_.txt" })
     foreach ($package_file in $package_files) {
         $packages = gc $package_file | ? { $_.Trim() } | ? { $_ -notlike '#*' }
-        Write-Host "Ensuring $($packages.Length) packages:"
+        log "Ensuring $($packages.Length) packages:"
         foreach ($package in $packages) { 
             $cmd = "choco install --limit-output -y " + (expand $package)
             Write-Verbose $cmd
             $package_name = $package -split ' ' | select -first 1
-            if (!$ShowDetails) { Write-Host -NoNewLine '  ' $package.PadRight(97) }
+            if (!$ShowDetails) { log -nn -ident 2 $package.PadRight(97) }
             
             # $LastExitCode return 1 on failure in console, but from script returns 0
             #  so I have to look into the log file
@@ -45,23 +45,26 @@ function Ensure-ChocolateyPackages {
 
             if ($failed) {
                 $err += $package
-                Write-Host -ForegroundColor red $version.PadRight(30) 'ERR'
+                log -fg red $version.PadRight(30),'ERR'
                 continue
             }
             $ok += $package
             Update-SessionEnvironment | Out-Null
-            Write-Host -ForegroundColor yellow $version.PadRight(30) 'OK'
+            log -fg yellow $version.PadRight(30),'OK'
          }
     }
 
     if ($ShowDetails) {
-        Write-Host "`nENSURED $($ok.Length) PACKAGES:"
-        $ok | % { Write-Host -ForegroundColor yellow '  ' $_ }
+        log "`nENSURED $($ok.Length) PACKAGES:"
+        $ok | % { log -fg yellow -ident 2 $_ }
         if ($err.Length) {
-            Write-Host -ForegroundColor red "`nFAILED $($err.Length) PACKAGES:"
-            $err | % { Write-Host -ForegroundColor red '  ' $_ }
+            log -fgcolor red "`nFAILED $($err.Length) PACKAGES:"
+            $err | % { log -fgcolor red -ident 2 $_ }
         }
     }
     
+    Write-Host ''
+    Write-Host 'Success:' $ok.Length
+    Write-Host 'Failed: ' $err.Length
     Write-Host ''
 }

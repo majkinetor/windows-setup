@@ -19,6 +19,7 @@ winmerge
 autohotkey.install 
 
 # Editors
+vim-tux
 notepadplusplus.install 
 visualstudiocode --params '/NoDesktopIcon'
 

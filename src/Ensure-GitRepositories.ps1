@@ -23,12 +23,12 @@ function Ensure-GitRepositories {
         $Repos
     )
 
-    Write-Host "|== Ensure Git Repositories"
+    log "|== Ensure Git Repositories"
 
     if (!(gcm git.exe -ea 0)) {throw 'Git not found on PATH'}
 
     git --version
-    Write-Host "Clonning $($repos.Length) git repositories`n"
+    log "Clonning $($repos.Length) git repositories`n"
     $err=@()
     $ok=@()
     foreach ($repo in $Repos) {
@@ -47,10 +47,10 @@ function Ensure-GitRepositories {
         $cmd = "git clone"
         if ($r.depth) {$cmd += " --depth $($r.depth)"}
         $cmd += ' {0} {1}' -f $r.uri, $r.path
-        Write-Host $cmd
+        log $cmd
 
         if ($r.force) { 
-            Write-Host -ForegroundColor yellow "Force enabled, existing directory will be deleted"
+            log -fg yellow "Force enabled, existing directory will be deleted"
             rm $r.path -ea 0 -Recurse -Force
         }
 
@@ -62,10 +62,12 @@ function Ensure-GitRepositories {
             $e = $e.Trim()
             rm err -ea 0
         }
-        if ($e) {Write-Host -ForegroundColor red $e; $err += $r} else {$ok += $r}
-        Write-Host 
+        if ($e) {log -fg red $e; $err += $r} else {$ok += $r}
+        log
     }
 
-    Write-Host 'Success:' $ok.Length
-    Write-Host 'Failed: ' $err.Length
+    log
+    log 'Success:', $ok.Length
+    log 'Failed: ', $err.Length
+    log
 }

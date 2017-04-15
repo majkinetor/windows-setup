@@ -14,12 +14,12 @@ function Ensure-Chocolatey() {
         [switch] $EnsureLatest
     )
 
-    Write-Host "|== Ensure Chocolatey"
-    if ($env:http_proxy) { Write-Host "Using proxy: $env:http_proxy" } else { Write-Host "Not using proxy" }
+    log  "|== Ensure Chocolatey"
+    if ($env:http_proxy) { log "Using proxy: $env:http_proxy" } else { log "Not using proxy" }
 
     if (gcm choco.exe -ea 0) { 
         if ($EnsureLatest) { choco.exe upgrade chocolatey } 
-        else { Write-Host 'Chocolatey version:' $(choco.exe --version) }
+        else { log 'Chocolatey version:', $(choco.exe --version) }
     } else {
         $env:chocolateyProxyLocation = $env:https_proxy = $env:http_proxy
         iwr https://chocolatey.org/install.ps1 -Proxy $http_proxy -UseBasicParsing | iex
@@ -33,5 +33,5 @@ function Ensure-Chocolatey() {
     # Ensure Update-SessionEnvironment is here before Chocolatye profile is set
     import-module -Scope Global C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1
 
-    Write-Host ''
+    log ''
 }
