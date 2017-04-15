@@ -45,12 +45,12 @@ function Ensure-ChocolateyPackages {
 
             if ($failed) {
                 $err += $package
-                log -fg red $version.PadRight(30),'ERR'
+                log -fg red -notime $version.PadRight(30),'ERR'
                 continue
             }
             $ok += $package
             Update-SessionEnvironment | Out-Null
-            log -fg yellow $version.PadRight(30),'OK'
+            log -fg yellow -notime $version.PadRight(30),'OK'
          }
     }
 
@@ -63,8 +63,8 @@ function Ensure-ChocolateyPackages {
         }
     }
     
-    Write-Host ''
-    Write-Host 'Success:' $ok.Length
-    Write-Host 'Failed: ' $err.Length
-    Write-Host ''
+    log
+    log 'Success:', $ok.Length
+    log 'Failed: ', $err.Length
+    log ''
 }

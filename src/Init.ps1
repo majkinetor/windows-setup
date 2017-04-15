@@ -9,7 +9,7 @@ function now() {
     (Get-Date).toString('s')
 }
 
-function log($msg='', $fgcolor='white', $bgcolor='black', [switch]$nn, [int]$ident) {
+function log($msg='', $fgcolor='white', $bgcolor='black', [switch]$nn, [int]$ident, [switch]$notime) {
     $params = @{
         Object = (now) + '   ' + ' '*$ident + $msg
         ForegroundColor = $fgcolor
