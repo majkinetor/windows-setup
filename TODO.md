@@ -1,0 +1,1 @@
+- git set email and name
