@@ -14,7 +14,7 @@ function Ensure-Chocolatey() {
         [switch] $EnsureLatest
     )
 
-    log  "|== Ensure Chocolatey"
+    log  "|== Ensure Chocolatey" -fg blue
     if ($env:http_proxy) { log "Using proxy: $env:http_proxy" } else { log "Not using proxy" }
 
     if (gcm choco.exe -ea 0) { 

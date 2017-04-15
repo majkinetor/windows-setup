@@ -18,7 +18,7 @@ function Ensure-ChocolateyPackages {
         [switch] $ShowDetails
     )
 
-    Write-Host "|== Ensure Chocolatey Packages"
+    log -fg blue "|== Ensure Chocolatey Packages"
     
     if (!(Test-Path packages)) { throw 'Packages directory not found'  }
 

@@ -23,7 +23,7 @@ function Ensure-GitRepositories {
         $Repos
     )
 
-    log "|== Ensure Git Repositories"
+    log -fg blue "|== Ensure Git Repositories"
 
     if (!(gcm git.exe -ea 0)) {throw 'Git not found on PATH'}
 
