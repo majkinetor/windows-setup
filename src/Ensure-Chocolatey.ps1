@@ -14,7 +14,7 @@ function Ensure-Chocolatey() {
         [switch] $EnsureLatest
     )
 
-    Write-Host "|== Ensure chocolatey"
+    Write-Host "|== Ensure Chocolatey"
     if ($env:http_proxy) { Write-Host "Using proxy: $env:http_proxy" } else { Write-Host "Not using proxy" }
 
     if (gcm choco.exe -ea 0) { 

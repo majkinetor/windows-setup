@@ -1,0 +1,42 @@
+# The most basic
+powershell
+googlechrome
+sysinternals --params "/InstallDir:'$Env:ChocolateyToolsLocation\SysInternals'" 
+nirlauncher --params '/Sysinternals'
+7zip                                    
+everything --params '/Service /RunOnSystemStartup'                               
+copyq --params '/NoDesktopIcon'                                              
+rapidee      
+lockhunter 
+windirstat
+screentogif
+totalcommander --params '/DefaultFM /AddCommanderPath'
+
+# Devel
+git.install --params '/GitAndUnixToolsOnPath'
+tortoisegit   
+winmerge       
+autohotkey.install 
+
+# Editors
+notepadplusplus.install 
+visualstudiocode --params '/NoDesktopIcon'
+
+# Remote
+winscp.install   
+kitty 
+
+# CLI tools
+conemu
+less                  
+fzf
+wget       
+curl 
+pandoc        
+gpg4win-vanilla
+
+# Media tools
+foxitreader
+smplayer
+okular
+nomacs.portable
