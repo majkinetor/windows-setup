@@ -66,5 +66,5 @@ function Ensure-ChocolateyPackages {
     log
     log 'Success:', $ok.Length
     log 'Failed: ', $err.Length
-    log ''
+    log
 }

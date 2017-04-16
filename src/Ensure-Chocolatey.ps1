@@ -11,14 +11,14 @@ function Ensure-Chocolatey() {
 
     param(
         # Ensure latest version of chocolatey is present
-        [switch] $EnsureLatest
+        [switch] $Latest
     )
 
     log  "|== Ensure Chocolatey" -fg blue
     if ($env:http_proxy) { log "Using proxy: $env:http_proxy" } else { log "Not using proxy" }
 
     if (gcm choco.exe -ea 0) { 
-        if ($EnsureLatest) { choco.exe upgrade chocolatey } 
+        if ($Latest) { choco.exe upgrade chocolatey } 
         else { log 'Chocolatey version:', $(choco.exe --version) }
     } else {
         $env:chocolateyProxyLocation = $env:https_proxy = $env:http_proxy
@@ -33,5 +33,5 @@ function Ensure-Chocolatey() {
     # Ensure Update-SessionEnvironment is here before Chocolatye profile is set
     import-module -Scope Global C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1
 
-    log ''
+    log
 }

@@ -1,21 +1,34 @@
-function Start-Setup {
-    if (!(Test-Admin)) {throw "Administrastor privilegies are required"}
+function Init {
+    if (!(Test-Admin)) { throw "Administrastor privileges are required" }
+
+    cd $PSScriptRoot\..
     
+    if (!$RestartNo) { 
+        $null | Out-File setup.log
+        $null | Out-File .restarts 
+    }
+
     $script:results = @{}
-    Write-Host "Windows setup started at $(now)`n"
+    if ($RestartNo) { $msg = ", restarted $RestartNo times" }
+    "`n", ("="*120), "`n" | Out-File -Append $PSScriptRoot\..\setup.log
+    log "Windows setup started${msg}`n" 
 }
 
 function now() {
     (Get-Date).toString('s')
 }
 
-function log($msg='', $fgcolor='white', $bgcolor='black', [switch]$nn, [int]$ident, [switch]$notime) {
+function log($msg='', $fgcolor='white', $bgcolor='', [switch]$nn, [int]$ident, [switch]$notime, [switch]$NoFile) {
     $params = @{
-        Object = (now) + '   ' + ' '*$ident + $msg
+        Object = $(if ($notime) {} else { (now) + '   '} )  + ' '*$ident + $msg
         ForegroundColor = $fgcolor
         BackgroundColor = $bgcolor
     }
+    if (!$bgcolor) { $params.Remove('BackgroundColor')}
     if (!$msg) { $params.object = ''}
     if ($nn) {$params.NoNewLine = $true}
     Write-Host @params
+    if (!$NoFile) {
+        $msg | Out-File -Append $PSScriptRoot\..\setup.log
+    }
 }

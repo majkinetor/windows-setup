@@ -19,7 +19,7 @@ function Ensure-GitRepositories {
         #   uri   - Repository URI
         #   path  - Path to clone to
         #   depth - Git depth parameter
-        #   force - Delete existing directory
+        #   force - Delete existing directory # TODO do not force if in this session
         $Repos
     )
 
@@ -27,7 +27,7 @@ function Ensure-GitRepositories {
 
     if (!(gcm git.exe -ea 0)) {throw 'Git not found on PATH'}
 
-    git --version
+    log $(git --version)
     log "Clonning $($repos.Length) git repositories`n"
     $err=@()
     $ok=@()
