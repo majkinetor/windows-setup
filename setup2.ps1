@@ -13,7 +13,9 @@ You can Restart-Windows in the middle of the stage or use -Restart argument for 
 the end of the stage. If -Rerun argument is present, the current stage will continue and the only way 
 to go to next stage is if there are no restarts.
 
-You can also filter by stages: setup.ps1 -Exclude 'Windows update', 'Debloat Windows 10'
+You can also filter by stages: 
+    setup.ps1 -Exclude 'Windows update', 'Debloat'
+    setup.ps1 -Include 'Packages', 'Ruby'
 
 - After restart - if -Restart is present - go to the next stage unless -Rerun is present 
   in which case rerun the same stage
@@ -44,10 +46,14 @@ Its probably best not to keep toools config here but basic OS stuff and package 
 
 stage 'Packages and tools' -Restart {
     Install-Chocolatey [-Latest] [-Upgrade]
-    Use-Packages [-Type] [Category]   # take data/packages/choco-<category>.txt
-                                      # take data/packages/npm-<category>.txt
-                                      # format: <executable_name>-category.txt
+    Use-Packages -Type Choco
     Use-GitRepositories -Root 'c:\Work' -Repos  #take data/git.ps1        #hashtable
+}
+
+stage 'Ruby tools' {
+    Install-Chocolatey [-Latest] [-Upgrade]
+    Use-Packages -Type Chocolatey -Category ruby
+    Use-Packages -Type Ruby -Category advanced
 }
 
 stage 'Windows update' -Restart -Rerun  {
@@ -67,6 +73,7 @@ stage 'Configure Windows' -Restart {
     Set-WindowsUpdate
     Set-WindowsTime -Update
     Set-UAC -Disable
+    Set-InternetExplorer 
     Use-Wallpaper # data/wallpaper.jpg
 }
 
