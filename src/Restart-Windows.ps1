@@ -12,9 +12,9 @@ function Restart-Windows( [string]$Reason, [int]$Wait=5, [switch]$IfPending) {
         return
     }
 
-    $RestartNo += 1
+    $RestartNo = $RestartNo + 1
 
-    "$RestartNo. $Reason" | sc .restarts
+    "$RestartNo. $Reason" | Out-File -Append .restarts
 
     $args = @(
         gcm powershell | % Path
@@ -23,13 +23,13 @@ function Restart-Windows( [string]$Reason, [int]$Wait=5, [switch]$IfPending) {
     )
     $script = '{0} -NoExit -Command "& {1} {2}"' -f $args
 
-    log "Restarting Windows with: ", $script
+    log "Restarting Windows: ", $Reason
     if ($Wait) { 
         log "Waiting $Wait seconds before restarting " -nn
         1..$wait | % { log -nofile -nn -notime '.'; sleep 1} 
-        log
     }
 
     Set-AutoLogon -LogonCount 1 -Username $Env:USERNAME -Password $Password -Script $script
     shutdown.exe /t 0 /r /f
+    exit
 }

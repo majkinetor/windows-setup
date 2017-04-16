@@ -4,6 +4,7 @@ function Init {
     cd $PSScriptRoot\..
     
     if (!$RestartNo) { 
+        log 'Removing old files'
         $null | Out-File setup.log
         $null | Out-File .restarts 
     }

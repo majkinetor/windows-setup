@@ -6,7 +6,7 @@
             "request": "launch",
             "name": "PowerShell Launch (setup.ps1)",
             "script": "${workspaceRoot}/setup.ps1",
-            "args": ["-Password kljun7"],
+            "args": ["-Password monkey"],
             "cwd": "${workspaceRoot}"
         },
         {
